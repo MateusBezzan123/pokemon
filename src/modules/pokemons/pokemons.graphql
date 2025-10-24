@@ -1,0 +1,29 @@
+type Pokemon {
+  id: Int!
+  name: String!
+  type: String!
+  created_at: DateTime!
+}
+
+type PokemonPage {
+  items: [Pokemon!]!
+  page: Int!
+  pageSize: Int!
+  total: Int!
+  totalPages: Int!
+  sortBy: String!
+  order: String!
+}
+
+scalar DateTime
+
+type Query {
+  findManyPokemon(name: String, type: String, page: Int, pageSize: Int, sortBy: String, order: String): PokemonPage!
+}
+
+type Mutation {
+  createOnePokemon(name: String!, type: String!, id: Int): Pokemon!
+  updateOnePokemon(id: Int!, name: String, type: String): Pokemon!
+  deleteOnePokemon(id: Int!): Boolean!
+  importPokemonById(id: Int!): Pokemon!
+}

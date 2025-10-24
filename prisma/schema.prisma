@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../database/database_prisma.sqlite"
+}
+
+model Pokemon {
+  id         Int       @id @default(autoincrement())
+  name       String
+  created_at DateTime  @default(now())
+  types      PokemonType[]
+  @@map("pokemons")
+}
+
+model Type {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique
+  created_at DateTime     @default(now())
+  pokemons   PokemonType[]
+  @@map("types")
+}
+
+model PokemonType {
+  pokemon   Pokemon @relation(fields: [pokemonId], references: [id])
+  pokemonId Int
+  type      Type    @relation(fields: [typeId], references: [id])
+  typeId    Int
+
+  @@id([pokemonId, typeId])
+  @@map("pokemon_types")
+}
